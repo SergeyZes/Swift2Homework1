@@ -45,9 +45,14 @@ class LoginFormController: UIViewController, UITextFieldDelegate {
         let password = passwordInput.text
         
         if login == "admin" && password == "123456" {
-            print("успешная авторизация")
+            loginInput.text = nil
+            passwordInput.text = nil
+            performSegue(withIdentifier: "loginOkSegue", sender: nil)
         } else {
-            print("ошибка авторизации")
+            let alert = UIAlertController(title: "Ошибка", message: "Введены неверные данные пользователя", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alert.addAction(action)
+            present(alert,animated: true)
         }
         
     }
