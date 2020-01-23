@@ -34,7 +34,7 @@ class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendTableCell", for: indexPath) as! FriendTableViewCell
         cell.friendLabel.text = VkDataBase.shared().friends[indexPath.row].name
-        cell.avatareImage.image = VkDataBase.shared().friends[indexPath.row].image
+        cell.avatarImage.img = VkDataBase.shared().friends[indexPath.row].image
         
 
         return cell
