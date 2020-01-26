@@ -10,7 +10,8 @@ import UIKit
 
 class FriendTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var avatareImage: UIImageView!
+    
+    @IBOutlet weak var avatarImage: CustomView!
     
     @IBOutlet weak var friendLabel: UILabel!
     
