@@ -9,11 +9,30 @@
 import UIKit
 
 class FriendsTableViewController: UITableViewController {
+    var friendsDictionary = [String: [User]]()
+    var friendsSectionTitles = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 74
         tableView.tableFooterView = UIView()
+        
+        friendsDictionary = [:]
+        friendsSectionTitles = []
+        
+        for friend in VkDataBase.shared().friends {
+            let key = String(friend.name.prefix(1))
+            if var friendValues = friendsDictionary[key] {
+                friendValues.append(friend)
+                friendsDictionary[key] = friendValues
+            } else {
+                friendsDictionary[key] = [friend]
+            }
+        }
+        
+        friendsSectionTitles = [String] (friendsDictionary.keys)
+        friendsSectionTitles = friendsSectionTitles.sorted(by: { $0 < $1 })
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -25,21 +44,45 @@ class FriendsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
 
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return friendsSectionTitles.count
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return VkDataBase.shared().friends.count
+        let key = friendsSectionTitles[section]
+        
+        if let friendValues = friendsDictionary[key] {
+            return friendValues.count
+        }
+        
+        return 0
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendTableCell", for: indexPath) as! FriendTableViewCell
-        cell.friendLabel.text = VkDataBase.shared().friends[indexPath.row].name
-        cell.avatarImage.img = VkDataBase.shared().friends[indexPath.row].image
+        
+        let key = friendsSectionTitles[indexPath.section]
+  
+        if let friendValues = friendsDictionary[key] {
+            cell.friendLabel.text = friendValues[indexPath.row].name
+            cell.avatarImage.img = friendValues[indexPath.row].image
+        }
+
+        
         
 
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return friendsSectionTitles[section]
+    }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return friendsSectionTitles
+    }
 
     /*
     // Override to support conditional editing of the table view.
