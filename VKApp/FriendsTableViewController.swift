@@ -11,7 +11,10 @@ import UIKit
 class FriendsTableViewController: UITableViewController {
     var friendsDictionary = [String: [User]]()
     var friendsSectionTitles = [String]()
-
+    var filteredFriends = [User]()
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 74
@@ -45,11 +48,21 @@ class FriendsTableViewController: UITableViewController {
 
 
     override func numberOfSections(in tableView: UITableView) -> Int {
+        
+        if let s = searchBar.text, s != "" {
+            return 1
+        }
+        
         return friendsSectionTitles.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if let s = searchBar.text, s != "" {
+            return filteredFriends.count
+        }
+
+        
         let key = friendsSectionTitles[section]
         
         if let friendValues = friendsDictionary[key] {
@@ -62,6 +75,13 @@ class FriendsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendTableCell", for: indexPath) as! FriendTableViewCell
+        
+        if let s = searchBar.text, s != "" {
+            cell.friendLabel.text = filteredFriends[indexPath.row].name
+            cell.avatarImage.img = filteredFriends[indexPath.row].image
+            return cell
+        }
+
         
         let key = friendsSectionTitles[indexPath.section]
   
@@ -76,11 +96,25 @@ class FriendsTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return friendsSectionTitles[section]
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        if let s = searchBar.text, s != "" {
+             return nil
+        }
+
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendTableHeader") as! FriendTableViewHeader
+        
+        cell.sectionHeader.text = friendsSectionTitles[section]
+        return cell
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        if let s = searchBar.text, s != "" {
+            return nil
+        }
+
         return friendsSectionTitles
     }
 
@@ -125,9 +159,46 @@ class FriendsTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "friendPropertiesSegue" {
-            (segue.destination as! FriendCollectionViewController).friend = VkDataBase.shared().friends[tableView.indexPathForSelectedRow?.row ?? 0]
+            
+            guard let section = tableView.indexPathForSelectedRow?.section, let row = tableView.indexPathForSelectedRow?.row else { return }
+            
+            if let s = searchBar.text, s != "" {
+               (segue.destination as! FriendCollectionViewController).friend = filteredFriends[row]
+                return
+            }
+
+            
+            
+            
+            
+            let key = friendsSectionTitles[section]
+            
+            if let friendValues = friendsDictionary[key] {
+                (segue.destination as! FriendCollectionViewController).friend = friendValues[row]
+            }
+
         }
     }
     
 
 }
+
+extension FriendsTableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let s = searchBar.text, s != "" {
+            tableView.sectionHeaderHeight = 0
+        } else {
+            tableView.sectionHeaderHeight = 40
+        }
+        
+        filteredFriends = []
+        if searchText != "" {
+            filteredFriends = VkDataBase.shared().friends.filter({ (user) -> Bool in
+                return user.name.lowercased().hasPrefix(searchText.lowercased())
+            })
+        }
+
+        tableView.reloadData()
+    }
+}
+
