@@ -62,9 +62,25 @@ import UIKit
         stackView.distribution = .equalSpacing
         addSubview(stackView)
         backgroundColor = .clear
+        
+ 
 
         
     }
+    
+   func handleTap() {
+         let animation = CABasicAnimation(keyPath: "transform.rotation.y")
+         
+         animation.fromValue = 0
+         animation.toValue = Double.pi
+         animation.duration = 0.5
+        
+         
+         imageView.layer.add(animation, forKey: nil)
+        
+
+      }
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -84,6 +100,7 @@ import UIKit
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         likes = (likes == 0) ? 1 : 0
+        handleTap()
     }
     
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {

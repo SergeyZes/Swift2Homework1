@@ -79,6 +79,7 @@ class FriendsTableViewController: UITableViewController {
         if let s = searchBar.text, s != "" {
             cell.friendLabel.text = filteredFriends[indexPath.row].name
             cell.avatarImage.img = filteredFriends[indexPath.row].image
+            cell.animate()
             return cell
         }
 
@@ -88,6 +89,7 @@ class FriendsTableViewController: UITableViewController {
         if let friendValues = friendsDictionary[key] {
             cell.friendLabel.text = friendValues[indexPath.row].name
             cell.avatarImage.img = friendValues[indexPath.row].image
+            cell.animate()
         }
 
         

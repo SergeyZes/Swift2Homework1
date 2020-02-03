@@ -22,6 +22,8 @@
 		A5952C4223CAF04E003221C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5952C4023CAF04E003221C4 /* LaunchScreen.storyboard */; };
 		A5952C4A23CAF4D9003221C4 /* LoginFormController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5952C4923CAF4D9003221C4 /* LoginFormController.swift */; };
 		A596595623D624E800715FD9 /* AllGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A596595523D624E800715FD9 /* AllGroupsTableViewController.swift */; };
+		A5BED7E923E86CD70002BFE3 /* CustomPoints3.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5BED7E823E86CD70002BFE3 /* CustomPoints3.xib */; };
+		A5BED7EB23E86F690002BFE3 /* CustomPoints3.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BED7EA23E86F690002BFE3 /* CustomPoints3.swift */; };
 		A5EDD00623D6059700787BC0 /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EDD00523D6059700787BC0 /* GroupTableViewCell.swift */; };
 		A5EDD00923D607A700787BC0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EDD00823D607A700787BC0 /* User.swift */; };
 		A5EDD00B23D60DE600787BC0 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EDD00A23D60DE600787BC0 /* Group.swift */; };
@@ -49,6 +51,8 @@
 		A5952C4323CAF04E003221C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5952C4923CAF4D9003221C4 /* LoginFormController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFormController.swift; sourceTree = "<group>"; };
 		A596595523D624E800715FD9 /* AllGroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsTableViewController.swift; sourceTree = "<group>"; };
+		A5BED7E823E86CD70002BFE3 /* CustomPoints3.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomPoints3.xib; sourceTree = "<group>"; };
+		A5BED7EA23E86F690002BFE3 /* CustomPoints3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPoints3.swift; sourceTree = "<group>"; };
 		A5EDD00523D6059700787BC0 /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
 		A5EDD00823D607A700787BC0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A5EDD00A23D60DE600787BC0 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -74,6 +78,8 @@
 			children = (
 				A549D1D823DA39520023C3FE /* CustomControl.swift */,
 				A549D1DA23DA398E0023C3FE /* CustomView.swift */,
+				A5BED7E823E86CD70002BFE3 /* CustomPoints3.xib */,
+				A5BED7EA23E86F690002BFE3 /* CustomPoints3.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -190,6 +196,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5952C4223CAF04E003221C4 /* LaunchScreen.storyboard in Resources */,
+				A5BED7E923E86CD70002BFE3 /* CustomPoints3.xib in Resources */,
 				A5952C3F23CAF04E003221C4 /* Assets.xcassets in Resources */,
 				A5952C3D23CAF04A003221C4 /* Main.storyboard in Resources */,
 			);
@@ -215,6 +222,7 @@
 				A55BAEFF23E75C2000D01DAF /* NewsTableViewController.swift in Sources */,
 				A5655CA323E72A0E00D6CC29 /* FriendTableViewHeader.swift in Sources */,
 				A5EDD01123D6175600787BC0 /* FriendCollectionViewController.swift in Sources */,
+				A5BED7EB23E86F690002BFE3 /* CustomPoints3.swift in Sources */,
 				A55BAEFD23E7572700D01DAF /* News.swift in Sources */,
 				A5EDD00623D6059700787BC0 /* GroupTableViewCell.swift in Sources */,
 				A5952C3823CAF04A003221C4 /* SceneDelegate.swift in Sources */,

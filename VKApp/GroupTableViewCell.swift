@@ -16,8 +16,28 @@ class GroupTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        groupImage.addGestureRecognizer(tapGesture)
+        groupImage.isUserInteractionEnabled = true
+        
         // Initialization code
     }
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+         let animation = CASpringAnimation(keyPath: "transform.scale")
+         
+         animation.fromValue = 0
+         animation.toValue = 1
+         animation.stiffness = 200
+         animation.mass = 2
+         animation.duration = 2
+         print("annn")
+         
+         groupImage.layer.add(animation, forKey: nil)
+        
+
+      }
+
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
