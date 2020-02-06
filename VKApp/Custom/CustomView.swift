@@ -44,7 +44,7 @@ import UIKit
     }
 
     
-    private var imageView: UIImageView
+    var imageView: UIImageView
     private var view1: UIView
     
     override init(frame: CGRect) {
@@ -102,18 +102,36 @@ import UIKit
         view1.layer.cornerRadius = size / 2
         imageView.layer.cornerRadius = size / 2
         imageView.layer.masksToBounds = true
+        imageView.isUserInteractionEnabled = true
         
         view1.layer.shadowOffset = CGSize(width: 3, height: 3)
         view1.layer.cornerRadius = size/2
         setupShadow()
         
-        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+
+        // 2. add the gesture recognizer to a view
+        imageView.addGestureRecognizer(tapGesture)
+
         
         //imageView.addConstraints([topC,botC,leftC,rightC])
         
         
     }
-
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        let animation = CASpringAnimation(keyPath: "transform.scale")
+        
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.stiffness = 200
+        animation.mass = 2
+        animation.duration = 2
+        print("annn")
+        
+        imageView.layer.add(animation, forKey: nil)
+        view1.layer.add(animation, forKey: nil)
+    }
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.

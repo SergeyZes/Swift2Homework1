@@ -24,12 +24,21 @@ class VkDataBase{
     var myGroups: [Group] = [Group(id: 1, name: "Программисты", image: UIImage(named: "programmers")!),
                            Group(id: 2, name: "Студенты", image: UIImage(named: "students")!)
     ]
+    
+    var allNews = [News]()
 
     
     
     static func shared() -> VkDataBase {
         if uniqueInstance == nil {
             uniqueInstance = VkDataBase()
+            
+            uniqueInstance?.allNews.append(News(id: 1, user: uniqueInstance!.friends[2], newsDate: Date(),
+                                                news: "Президент США Дональд Трамп ввел иммиграционные ограничения в отношении граждан Нигерии, Мьянмы, Эритреи, Киргизии, Судана и Танзании.",
+                                                image: UIImage(named: "trump")!, views: 10))
+            uniqueInstance?.allNews.append(News(id: 2, user: uniqueInstance!.friends[1], newsDate: Date(),
+                                                news: "Си Цзиньпин назвал ситуацию с эпидемией коронавируса в Китае сложной.",
+                                                image: UIImage(named: "xi")!, views: 7))
         }
         
         return uniqueInstance!

@@ -25,5 +25,13 @@ class FriendTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func animate() {
+        avatarImage.transform = CGAffineTransform(translationX: -100, y: 0).scaledBy(x: 0.1, y: 0.1).rotated(by: 10)
+        UIView.animate(withDuration: 5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
+            self.avatarImage.transform = .identity
+            self.avatarImage.imageView.alpha = 1
+        }, completion: nil)
+    }
 
 }

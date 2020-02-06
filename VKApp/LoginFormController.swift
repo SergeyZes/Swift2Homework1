@@ -14,6 +14,10 @@ class LoginFormController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordInput: UITextField!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var item1: UIView!
+    @IBOutlet weak var item2: UIView!
+    @IBOutlet weak var item3: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loginInput.delegate = self
@@ -31,6 +35,16 @@ class LoginFormController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        UIView.animate(withDuration: 1, delay: 0, options: [.repeat, .autoreverse], animations: {
+            self.item1.alpha = 0
+        }, completion: nil)
+        UIView.animate(withDuration: 1, delay: 0.33, options: [.repeat, .autoreverse], animations: {
+            self.item2.alpha = 0
+        }, completion: nil)
+        UIView.animate(withDuration: 1, delay: 0.66, options: [.repeat, .autoreverse], animations: {
+            self.item3.alpha = 0
+        }, completion: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
