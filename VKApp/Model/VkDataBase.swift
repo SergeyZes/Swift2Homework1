@@ -12,9 +12,9 @@ class VkDataBase{
     private static var uniqueInstance: VkDataBase?
     private init(){}
     
-    var friends: [User] = [User(id: 1, name: "Арнольд Шварценеггер", image: UIImage(named: "arnold")!),
-                           User(id: 2, name: "Владимир Жириновский", image: UIImage(named: "zhirinovsky")!),
-                           User(id: 3, name: "Сергей Лавров", image: UIImage(named: "lavrov")!)
+    var friends: [User] = [User(id: 1, name: "Арнольд Шварценеггер", image: UIImage(named: "arnold")!, images: [UIImage(named: "arnold")!,UIImage(named: "arnold2")!]),
+                           User(id: 2, name: "Владимир Жириновский", image: UIImage(named: "zhirinovsky")!, images: [UIImage(named: "zhirinovsky")!,UIImage(named: "zhirinovsky2")!]),
+                           User(id: 3, name: "Сергей Лавров", image: UIImage(named: "lavrov")!, images: [UIImage(named: "lavrov")!,UIImage(named: "lavrov2")!])
     ]
     var allGroups: [Group] = [Group(id: 1, name: "Программисты", image: UIImage(named: "programmers")!),
                            Group(id: 2, name: "Студенты", image: UIImage(named: "students")!),
