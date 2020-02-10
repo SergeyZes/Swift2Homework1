@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A50A940923EC649600CF14B6 /* FriendPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50A940823EC649600CF14B6 /* FriendPhotoViewController.swift */; };
 		A5373F5723D5FFD900BB4154 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5373F5623D5FFD900BB4154 /* FriendTableViewCell.swift */; };
 		A5373F5923D6026100BB4154 /* FriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5373F5823D6026100BB4154 /* FriendCollectionViewCell.swift */; };
 		A549D1D923DA39520023C3FE /* CustomControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A549D1D823DA39520023C3FE /* CustomControl.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A50A940823EC649600CF14B6 /* FriendPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotoViewController.swift; sourceTree = "<group>"; };
 		A5373F5623D5FFD900BB4154 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		A5373F5823D6026100BB4154 /* FriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCollectionViewCell.swift; sourceTree = "<group>"; };
 		A549D1D823DA39520023C3FE /* CustomControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControl.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				A5952C3523CAF04A003221C4 /* AppDelegate.swift */,
 				A5952C3723CAF04A003221C4 /* SceneDelegate.swift */,
 				A5952C3B23CAF04A003221C4 /* Main.storyboard */,
+				A50A940823EC649600CF14B6 /* FriendPhotoViewController.swift */,
 				A596595523D624E800715FD9 /* AllGroupsTableViewController.swift */,
 				A5EDD01223D6205500787BC0 /* GroupsTableViewController.swift */,
 				A5EDD01023D6175600787BC0 /* FriendCollectionViewController.swift */,
@@ -229,6 +232,7 @@
 				A55BAEFB23E7535200D01DAF /* NewsTableViewCell.swift in Sources */,
 				A5373F5723D5FFD900BB4154 /* FriendTableViewCell.swift in Sources */,
 				A5EDD00923D607A700787BC0 /* User.swift in Sources */,
+				A50A940923EC649600CF14B6 /* FriendPhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

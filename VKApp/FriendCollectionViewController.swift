@@ -26,15 +26,18 @@ class FriendCollectionViewController: UICollectionViewController {
         // Do any additional setup after loading the view.
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "friendPhoto" {
+            let vc = segue.destination as! FriendPhotoViewController
+            vc.img = friend.image
+            vc.friendimgs = friend.images
+        }
     }
-    */
+    
 
     // MARK: UICollectionViewDataSource
 
@@ -49,7 +52,10 @@ class FriendCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCollectionCell", for: indexPath) as! FriendCollectionViewCell
     
         cell.avatarImage.image = friend.image
-        
+        cell.avatarImage.isUserInteractionEnabled = true
+        let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTapping(recognizer:)))
+        singleTap.numberOfTapsRequired = 1
+        cell.avatarImage.addGestureRecognizer(singleTap)
         
        
         // Configure the cell
@@ -57,6 +63,10 @@ class FriendCollectionViewController: UICollectionViewController {
         return cell
     }
 
+    @objc func singleTapping(recognizer: UIGestureRecognizer) {
+        performSegue(withIdentifier: "friendPhoto", sender: nil)
+    }
+    
     // MARK: UICollectionViewDelegate
 
     /*

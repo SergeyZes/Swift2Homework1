@@ -12,9 +12,11 @@ class User {
     let id: Int
     let name: String
     let image: UIImage
-    init(id: Int, name: String, image: UIImage) {
+    let images: [UIImage]
+    init(id: Int, name: String, image: UIImage, images: [UIImage]) {
         self.id = id
         self.name = name
         self.image = image
+        self.images = images
     }
 }

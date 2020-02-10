@@ -365,10 +365,40 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="данные друга" id="Jbt-gn-2ri"/>
+                    <connections>
+                        <segue destination="xeZ-sY-5St" kind="show" identifier="friendPhoto" id="UOW-4P-xTR"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z0A-vs-yC7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4525" y="-723"/>
+        </scene>
+        <!--Friend Photo View Controller-->
+        <scene sceneID="hou-AR-lZi">
+            <objects>
+                <viewController id="xeZ-sY-5St" customClass="FriendPhotoViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lzj-XN-rsu">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QJ0-mH-rqZ">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="QJ0-mH-rqZ" firstAttribute="trailing" secondItem="Pxj-dJ-ETl" secondAttribute="trailing" id="75v-yn-tmA"/>
+                            <constraint firstItem="QJ0-mH-rqZ" firstAttribute="top" secondItem="Pxj-dJ-ETl" secondAttribute="top" id="mIC-f3-Pgr"/>
+                            <constraint firstItem="QJ0-mH-rqZ" firstAttribute="bottom" secondItem="Pxj-dJ-ETl" secondAttribute="bottom" id="nhK-t6-i0L"/>
+                            <constraint firstItem="QJ0-mH-rqZ" firstAttribute="leading" secondItem="Pxj-dJ-ETl" secondAttribute="leading" id="uie-Me-W8a"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Pxj-dJ-ETl"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="jlX-oR-RGn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dXF-4c-TiQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5466.666666666667" y="-726.5625"/>
         </scene>
         <!--группы-->
         <scene sceneID="kfM-3S-yNW">
