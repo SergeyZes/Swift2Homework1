@@ -16,6 +16,10 @@
 		A55BAEFD23E7572700D01DAF /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55BAEFC23E7572700D01DAF /* News.swift */; };
 		A55BAEFF23E75C2000D01DAF /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55BAEFE23E75C2000D01DAF /* NewsTableViewController.swift */; };
 		A5655CA323E72A0E00D6CC29 /* FriendTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5655CA223E72A0E00D6CC29 /* FriendTableViewHeader.swift */; };
+		A56D798523F1BE5300006118 /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56D798423F1BE5300006118 /* PushAnimator.swift */; };
+		A56D798723F1C22800006118 /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56D798623F1C22800006118 /* PopAnimator.swift */; };
+		A56D798923F1C40500006118 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56D798823F1C40500006118 /* CustomNavigationController.swift */; };
+		A56D798B23F1CD0500006118 /* CustomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56D798A23F1CD0500006118 /* CustomInteractiveTransition.swift */; };
 		A5952C3623CAF04A003221C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5952C3523CAF04A003221C4 /* AppDelegate.swift */; };
 		A5952C3823CAF04A003221C4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5952C3723CAF04A003221C4 /* SceneDelegate.swift */; };
 		A5952C3D23CAF04A003221C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5952C3B23CAF04A003221C4 /* Main.storyboard */; };
@@ -44,6 +48,10 @@
 		A55BAEFC23E7572700D01DAF /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		A55BAEFE23E75C2000D01DAF /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		A5655CA223E72A0E00D6CC29 /* FriendTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewHeader.swift; sourceTree = "<group>"; };
+		A56D798423F1BE5300006118 /* PushAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAnimator.swift; sourceTree = "<group>"; };
+		A56D798623F1C22800006118 /* PopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
+		A56D798823F1C40500006118 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
+		A56D798A23F1CD0500006118 /* CustomInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractiveTransition.swift; sourceTree = "<group>"; };
 		A5952C3223CAF04A003221C4 /* VKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5952C3523CAF04A003221C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5952C3723CAF04A003221C4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +94,17 @@
 			path = Custom;
 			sourceTree = "<group>";
 		};
+		A56D798323F1BE3600006118 /* Animators */ = {
+			isa = PBXGroup;
+			children = (
+				A56D798423F1BE5300006118 /* PushAnimator.swift */,
+				A56D798623F1C22800006118 /* PopAnimator.swift */,
+				A56D798823F1C40500006118 /* CustomNavigationController.swift */,
+				A56D798A23F1CD0500006118 /* CustomInteractiveTransition.swift */,
+			);
+			path = Animators;
+			sourceTree = "<group>";
+		};
 		A5952C2923CAF04A003221C4 = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +124,7 @@
 		A5952C3423CAF04A003221C4 /* VKApp */ = {
 			isa = PBXGroup;
 			children = (
+				A56D798323F1BE3600006118 /* Animators */,
 				A549D1D723DA39290023C3FE /* Custom */,
 				A5EDD00523D6059700787BC0 /* GroupTableViewCell.swift */,
 				A5952C3523CAF04A003221C4 /* AppDelegate.swift */,
@@ -212,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A56D798723F1C22800006118 /* PopAnimator.swift in Sources */,
 				A549D1DB23DA398E0023C3FE /* CustomView.swift in Sources */,
 				A5EDD00D23D60ED400787BC0 /* VkDataBase.swift in Sources */,
 				A5952C4A23CAF4D9003221C4 /* LoginFormController.swift in Sources */,
@@ -223,7 +244,10 @@
 				A596595623D624E800715FD9 /* AllGroupsTableViewController.swift in Sources */,
 				A5EDD00B23D60DE600787BC0 /* Group.swift in Sources */,
 				A55BAEFF23E75C2000D01DAF /* NewsTableViewController.swift in Sources */,
+				A56D798923F1C40500006118 /* CustomNavigationController.swift in Sources */,
+				A56D798B23F1CD0500006118 /* CustomInteractiveTransition.swift in Sources */,
 				A5655CA323E72A0E00D6CC29 /* FriendTableViewHeader.swift in Sources */,
+				A56D798523F1BE5300006118 /* PushAnimator.swift in Sources */,
 				A5EDD01123D6175600787BC0 /* FriendCollectionViewController.swift in Sources */,
 				A5BED7EB23E86F690002BFE3 /* CustomPoints3.swift in Sources */,
 				A55BAEFD23E7572700D01DAF /* News.swift in Sources */,
