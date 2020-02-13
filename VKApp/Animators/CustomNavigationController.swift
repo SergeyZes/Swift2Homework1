@@ -23,7 +23,6 @@ class CustomNavigationController: UINavigationController, UINavigationController
         delegate = self
         
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handleScreenEdgeGesture(_:)))
-        //recognizer.edges = [.left]
         view.addGestureRecognizer(recognizer)
 
         // Do any additional setup after loading the view.
@@ -56,12 +55,12 @@ class CustomNavigationController: UINavigationController, UINavigationController
             let translation = recognizer.translation(in: recognizer.view)
             let relativeTranslation = translation.x / width
             let  progress = max(0, min(1, relativeTranslation))
-            interactiveTransition.shouldFinish = progress > 0.33
             interactiveTransition.update(progress)
+            interactiveTransition.shouldFinish = progress > 0.33
         case .ended:
             interactiveTransition.hasStarted = false
             interactiveTransition.shouldFinish ? interactiveTransition.finish() : interactiveTransition.cancel()
-        case .cancelled:
+         case .cancelled:
             interactiveTransition.hasStarted = false
             interactiveTransition.cancel()
         default:

@@ -9,7 +9,7 @@
 import UIKit
 
 class PushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    private let animationDuration: TimeInterval = 1
+    private let animationDuration: TimeInterval = 5
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return animationDuration
@@ -30,12 +30,20 @@ class PushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         destination.view.transform = rot.concatenating(trans)
         
-        UIView.animate(withDuration: animationDuration, animations: {
+        let duration = self.transitionDuration(using: transitionContext)
+        
+        UIView.animate(withDuration: duration, animations: {
             destination.view.transform = trans
         }) { (finished) in
-            transitionContext.completeTransition(finished && !transitionContext.transitionWasCancelled)
+            if finished && !transitionContext.transitionWasCancelled {
+
+            }
             destination.view.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             destination.view.transform = .identity
+            
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+          //  destination.view.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+           // destination.view.transform = .identity
         }
         
     }

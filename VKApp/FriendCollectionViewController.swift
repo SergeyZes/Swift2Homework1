@@ -12,6 +12,7 @@ private let reuseIdentifier = "Cell"
 
 class FriendCollectionViewController: UICollectionViewController {
     var friend: User!
+    var curIndex: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +34,9 @@ class FriendCollectionViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "friendPhoto" {
             let vc = segue.destination as! FriendPhotoViewController
-            vc.img = friend.image
+            vc.img = friend.images[curIndex]
             vc.friendimgs = friend.images
+            vc.curIndex = curIndex
         }
     }
     
@@ -45,13 +47,13 @@ class FriendCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 1
+        return friend.images.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCollectionCell", for: indexPath) as! FriendCollectionViewCell
     
-        cell.avatarImage.image = friend.image
+        cell.avatarImage.image = friend.images[indexPath.row]
         cell.avatarImage.isUserInteractionEnabled = true
         let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTapping(recognizer:)))
         singleTap.numberOfTapsRequired = 1
@@ -64,6 +66,13 @@ class FriendCollectionViewController: UICollectionViewController {
     }
 
     @objc func singleTapping(recognizer: UIGestureRecognizer) {
+
+        let point = recognizer.location(in: collectionView)
+        if let indexPath = collectionView?.indexPathForItem(at: point){
+            curIndex = indexPath.row
+        }
+ 
+        
         performSegue(withIdentifier: "friendPhoto", sender: nil)
     }
     
