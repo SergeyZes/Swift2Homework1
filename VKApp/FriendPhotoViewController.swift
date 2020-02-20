@@ -169,6 +169,9 @@ class FriendPhotoViewController: UIViewController {
         
         for i in 0..<friendimgs.count {
             friendPhotoes[i].image = friendimgs[i]
+            if i == 0 {
+               friendPhotoes[i].image = img
+            }
             
             
             friendPhotoes[i].transform = CGAffineTransform(translationX: CGFloat(i * 1000), y: 0)
@@ -179,15 +182,17 @@ class FriendPhotoViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         for i in 0..<friendimgs.count {
+            if i == 0 {
+                friendPhotoes[i].image = friendimgs[i]
+            }
             
             let w = friendPhotoes[i].bounds.width * CGFloat(i)
             friendTransforms.append(w)
-            
-            print(w)
-            
+                        
             friendPhotoes[i].transform = CGAffineTransform(translationX: w, y: 0)
 
         }
+        showI2(curIndex)
     }
     
 

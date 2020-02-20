@@ -9,7 +9,7 @@
 import UIKit
 
 class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    private let animationDuration: TimeInterval = 1
+    private let animationDuration: TimeInterval = 5
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return animationDuration
@@ -31,19 +31,24 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         //let trans = CGAffineTransform(translationX: -transitionContext.containerView.frame.width / 2, y: -transitionContext.containerView.frame.height / 2)
         source.view.transform = CGAffineTransform(translationX: -transitionContext.containerView.frame.width / 2, y: -transitionContext.containerView.frame.height / 2)
         
-        UIView.animate(withDuration: animationDuration, animations: {
+        let duration = self.transitionDuration(using: transitionContext)
+
+        
+        UIView.animate(withDuration: duration, animations: {
             source.view.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi) / 2).concatenating(CGAffineTransform(translationX: -transitionContext.containerView.frame.width / 2, y: -transitionContext.containerView.frame.height / 2))
        }) { (finished) in
-            if finished && !transitionContext.transitionWasCancelled {
+            if finished &&  !transitionContext.transitionWasCancelled {
                 source.view.transform = .identity
                 source.view.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 source.removeFromParent()
             } else if transitionContext.transitionWasCancelled {
-                source.view.transform = .identity
                 source.view.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+                source.view.transform = .identity
+                
             }
+        
             
-            transitionContext.completeTransition(finished && !transitionContext.transitionWasCancelled)
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         
     }
