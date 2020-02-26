@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2jY-vW-bqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="obC-Pr-oKI">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -157,6 +157,124 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1066.6666666666667" y="-164.0625"/>
+        </scene>
+        <!--LoginVK View Controller-->
+        <scene sceneID="ekd-I7-pbi">
+            <objects>
+                <viewController storyboardIdentifier="LoginVKViewController" id="W4r-kG-cWb" customClass="LoginVKViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gaw-Ha-Rv2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dxG-yE-1Ab">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="dxG-yE-1Ab" firstAttribute="top" secondItem="DKA-WT-s69" secondAttribute="top" id="BCR-R6-k44"/>
+                            <constraint firstItem="dxG-yE-1Ab" firstAttribute="trailing" secondItem="DKA-WT-s69" secondAttribute="trailing" id="TB7-wl-2aK"/>
+                            <constraint firstItem="dxG-yE-1Ab" firstAttribute="leading" secondItem="DKA-WT-s69" secondAttribute="leading" id="bYt-fl-hiJ"/>
+                            <constraint firstItem="dxG-yE-1Ab" firstAttribute="bottom" secondItem="DKA-WT-s69" secondAttribute="bottom" id="l1A-Jw-biX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="DKA-WT-s69"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="zJz-io-JwD"/>
+                    <connections>
+                        <outlet property="webview" destination="dxG-yE-1Ab" id="XAt-QA-qEM"/>
+                        <segue destination="ob7-Fr-JpP" kind="show" identifier="loginVkOkSegue" id="Qhg-Do-yo7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NcI-r5-28W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="953.62318840579712" y="493.52678571428567"/>
+        </scene>
+        <!--Actions View Controller-->
+        <scene sceneID="6Zh-st-eiP">
+            <objects>
+                <viewController id="ob7-Fr-JpP" customClass="VKActionsViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="y9z-wQ-Kbn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gaC-SB-2hO">
+                                <rect key="frame" x="20" y="88" width="374" height="154"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6O1-7O-0Ug">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <state key="normal" title="Список друзей"/>
+                                        <connections>
+                                            <action selector="getFriends:" destination="ob7-Fr-JpP" eventType="touchUpInside" id="FuK-xG-MbM"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rn3-zM-Vvr">
+                                        <rect key="frame" x="0.0" y="40" width="374" height="30"/>
+                                        <state key="normal" title="Фотографи"/>
+                                        <connections>
+                                            <action selector="getPhotoes:" destination="ob7-Fr-JpP" eventType="touchUpInside" id="IIx-Bm-9De"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nZs-Eu-xAA">
+                                        <rect key="frame" x="0.0" y="80" width="374" height="30"/>
+                                        <state key="normal" title="Группы"/>
+                                        <connections>
+                                            <action selector="getGroups:" destination="ob7-Fr-JpP" eventType="touchUpInside" id="1oH-Ry-taE"/>
+                                        </connections>
+                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="nUu-SL-gfc">
+                                        <rect key="frame" x="0.0" y="120" width="374" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="введите строку поиска" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="m1X-Fc-Q8c">
+                                                <rect key="frame" x="0.0" y="0.0" width="269.33333333333331" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QE-af-8pL">
+                                                <rect key="frame" x="273.33333333333331" y="0.0" width="100.66666666666669" height="34"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="PhW-vZ-Nly"/>
+                                                </constraints>
+                                                <inset key="contentEdgeInsets" minX="9" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title=" группа  " image="magnifyingglass" catalog="system">
+                                                    <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="searchGroups:" destination="ob7-Fr-JpP" eventType="touchUpInside" id="UeG-9m-6I1"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="z61-60-P0M" firstAttribute="trailing" secondItem="gaC-SB-2hO" secondAttribute="trailing" constant="20" id="1Z7-NG-jkX"/>
+                            <constraint firstItem="gaC-SB-2hO" firstAttribute="top" secondItem="z61-60-P0M" secondAttribute="top" id="WOE-gq-JQi"/>
+                            <constraint firstItem="gaC-SB-2hO" firstAttribute="leading" secondItem="z61-60-P0M" secondAttribute="leading" constant="20" id="vEf-jq-dSR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="z61-60-P0M"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="KtQ-7j-lPp">
+                        <barButtonItem key="leftBarButtonItem" title="LogOut" id="4dU-oR-v8E">
+                            <connections>
+                                <action selector="logOut:" destination="ob7-Fr-JpP" id="H50-0g-y0B"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="searchString" destination="m1X-Fc-Q8c" id="YU2-v0-xSG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lkS-Da-hda" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1824.6376811594205" y="497.54464285714283"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="awH-Ms-vji">
@@ -417,7 +535,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5s7-Fm-l0i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2774" y="-53"/>
+            <point key="canvasLocation" x="3684.057971014493" y="-53.571428571428569"/>
         </scene>
         <!--новости-->
         <scene sceneID="Hmw-kv-uQE">
@@ -558,7 +676,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hyu-Ub-TSm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3684.057971014493" y="705.13392857142856"/>
+            <point key="canvasLocation" x="4594.202898550725" y="705.13392857142856"/>
         </scene>
         <!--группы-->
         <scene sceneID="WoP-hv-i1k">
@@ -619,7 +737,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DD3-8d-Abh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3651" y="-54"/>
+            <point key="canvasLocation" x="4560.8695652173919" y="-54.241071428571423"/>
         </scene>
         <!--поиск групп-->
         <scene sceneID="7ba-sj-ejs">
@@ -676,7 +794,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ihY-tD-WTN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="ZX2-oS-wba" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4525" y="-54"/>
+            <point key="canvasLocation" x="5434.7826086956529" y="-54.241071428571423"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fBX-Vp-QY9">
@@ -713,7 +831,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cGL-tO-caM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2773.913043478261" y="704.46428571428567"/>
+            <point key="canvasLocation" x="3684.057971014493" y="704.46428571428567"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iUA-K8-AVW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="obC-Pr-oKI" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="las-sI-Mat">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="W4r-kG-cWb" kind="relationship" relationship="rootViewController" id="fOQ-zw-Bch"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n0x-5D-XNr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="157" y="494"/>
         </scene>
     </scenes>
     <resources>
@@ -722,6 +858,7 @@
         <image name="eye" catalog="system" width="64" height="40"/>
         <image name="likeit" width="32" height="32"/>
         <image name="likeno" width="32" height="32"/>
+        <image name="magnifyingglass" catalog="system" width="64" height="56"/>
         <image name="paperplane" catalog="system" width="64" height="60"/>
         <image name="pencil" catalog="system" width="64" height="56"/>
         <image name="person" catalog="system" width="64" height="58"/>
