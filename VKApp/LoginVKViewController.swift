@@ -90,7 +90,13 @@ extension LoginVKViewController: WKNavigationDelegate {
             Session.instance.userId = userid
             
             performSegue(withIdentifier: "loginVkOkSegue", sender: nil)
-             
+            //                   navigationController?.viewControllers.removeAll()
+            
+//            let vc = storyboard?.instantiateViewController(identifier: "MainTabBarController") as! MainTabBarController
+            
+ //           navigationController?.pushViewController(vc, animated: true)
+
+
         }
         
         decisionHandler(.cancel)

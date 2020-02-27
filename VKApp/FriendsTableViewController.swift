@@ -9,11 +9,72 @@
 import UIKit
 
 class FriendsTableViewController: UITableViewController {
-    var friendsDictionary = [String: [User]]()
+    var friendsDictionary = [String: [UserFriends]]()
     var friendsSectionTitles = [String]()
-    var filteredFriends = [User]()
+    var filteredFriends = [UserFriends]()
+    
+    var rootFriends: RootFriends?
+    var allFriends  = [UserFriends]()
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    func getFriends() {
+            var urlConstructor = URLComponents()
+            urlConstructor.scheme = "https"
+            urlConstructor.host = "api.vk.com"
+            urlConstructor.path = "/method/friends.get"
+            urlConstructor.queryItems = [
+               URLQueryItem(name: "v", value: "5.103"),
+               URLQueryItem(name: "access_token", value: Session.instance.token),
+               URLQueryItem(name: "fields", value: "city,domain,sex,nickname,country")
+            ]
+            
+            URLSession.shared.dataTask(with: urlConstructor.url!) { (data, response, error) in
+                guard let data = data else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                 
+                  do {
+                    self.rootFriends = try JSONDecoder().decode(RootFriends.self, from: data)
+                    
+                    
+                    
+                  } catch {
+                   return
+                  }
+                
+                  guard let allf = self.rootFriends?.response?.items else {
+                    return
+                  }
+                  self.allFriends = allf
+                
+                  self.friendsDictionary = [:]
+                  self.friendsSectionTitles = []
+
+                  for friend in self.allFriends {
+                    let key = String((friend.firstName ?? "anonymous").prefix(1))
+                    
+                     
+                    if var friendValues = self.friendsDictionary[key] {
+                        friendValues.append(friend)
+                        self.friendsDictionary[key] = friendValues
+                    } else {
+                        self.friendsDictionary[key] = [friend]
+                    }
+                  }
+                
+                  self.friendsSectionTitles = [String] (self.friendsDictionary.keys)
+                  self.friendsSectionTitles = self.friendsSectionTitles.sorted(by: { $0 < $1 })
+                  self.tableView.reloadData()
+                }
+                
+                
+            }.resume()
+            
+        }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,35 +84,24 @@ class FriendsTableViewController: UITableViewController {
         friendsDictionary = [:]
         friendsSectionTitles = []
         
-        for friend in VkDataBase.shared().friends {
-            let key = String(friend.name.prefix(1))
-            if var friendValues = friendsDictionary[key] {
-                friendValues.append(friend)
-                friendsDictionary[key] = friendValues
-            } else {
-                friendsDictionary[key] = [friend]
-            }
-        }
-        
-        friendsSectionTitles = [String] (friendsDictionary.keys)
-        friendsSectionTitles = friendsSectionTitles.sorted(by: { $0 < $1 })
-        
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
 
 
+    override func viewWillAppear(_ animated: Bool) {
+        getFriends()
+    }
+    
+    
+
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         
         if let s = searchBar.text, s != "" {
             return 1
         }
+        
         
         return friendsSectionTitles.count
     }
@@ -77,8 +127,8 @@ class FriendsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendTableCell", for: indexPath) as! FriendTableViewCell
         
         if let s = searchBar.text, s != "" {
-            cell.friendLabel.text = filteredFriends[indexPath.row].name
-            cell.avatarImage.img = filteredFriends[indexPath.row].image
+            cell.friendLabel.text = filteredFriends[indexPath.row].firstName ?? "anonymous"
+            cell.avatarImage.img = #imageLiteral(resourceName: "groups")
             cell.animate()
             return cell
         }
@@ -87,8 +137,8 @@ class FriendsTableViewController: UITableViewController {
         let key = friendsSectionTitles[indexPath.section]
   
         if let friendValues = friendsDictionary[key] {
-            cell.friendLabel.text = friendValues[indexPath.row].name
-            cell.avatarImage.img = friendValues[indexPath.row].image
+            cell.friendLabel.text = friendValues[indexPath.row].firstName ?? "anonymous"
+            cell.avatarImage.img = #imageLiteral(resourceName: "groups")
             cell.animate()
         }
 
@@ -195,8 +245,8 @@ extension FriendsTableViewController: UISearchBarDelegate {
         
         filteredFriends = []
         if searchText != "" {
-            filteredFriends = VkDataBase.shared().friends.filter({ (user) -> Bool in
-                return user.name.lowercased().hasPrefix(searchText.lowercased())
+            filteredFriends = allFriends.filter({ (user) -> Bool in
+                return (user.firstName ?? "anonymous").lowercased().hasPrefix(searchText.lowercased())
             })
         }
 

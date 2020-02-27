@@ -45,10 +45,29 @@ class VKActionsViewController: UIViewController {
            URLQueryItem(name: "access_token", value: Session.instance.token),
            URLQueryItem(name: "fields", value: "city,domain,sex,nickname,country")
         ]
-        let request = AF.request(urlConstructor.url!)
-        request.responseJSON { (data) in
-            print(data)
-        }
+        
+        URLSession.shared.dataTask(with: urlConstructor.url!) { (data, response, error) in
+            guard let data = data else {
+                return
+            }
+            
+            do {
+                let friends = try JSONDecoder().decode(RootFriends.self, from: data)
+                print(friends)
+            } catch {
+                print(error)
+            }
+            
+            //print("JSON = \(json)")
+        }.resume()
+        
+        print("URL= \(urlConstructor.url!)")
+        
+        
+//        let request = AF.request(urlConstructor.url!)
+//        request.responseJSON { (data) in
+//            print(data)
+//        }
     }
     
     @IBAction func getPhotoes(_ sender: Any) {
@@ -61,10 +80,12 @@ class VKActionsViewController: UIViewController {
            URLQueryItem(name: "access_token", value: Session.instance.token),
            URLQueryItem(name: "extended", value: "1")
         ]
-        let request = AF.request(urlConstructor.url!)
-        request.responseJSON { (data) in
-            print(data)
-        }
+        
+        print("URL= \(urlConstructor.url!)")
+//        let request = AF.request(urlConstructor.url!)
+//        request.responseJSON { (data) in
+//            print(data)
+//        }
 
     }
     @IBAction func getGroups(_ sender: Any) {
@@ -78,10 +99,29 @@ class VKActionsViewController: UIViewController {
            URLQueryItem(name: "fields", value: "city,country,place,description"),
            URLQueryItem(name: "extended", value: "1")
         ]
-        let request = AF.request(urlConstructor.url!)
-        request.responseJSON { (data) in
-            print(data)
-        }
+        
+        URLSession.shared.dataTask(with: urlConstructor.url!) { (data, response, error) in
+            guard let data = data else {
+                return
+            }
+            
+            do {
+                let groups = try JSONDecoder().decode(RootGroups.self, from: data)
+                //print(groups)
+            } catch {
+                print(error)
+            }
+            
+            //print("JSON = \(json)")
+        }.resume()
+        
+//        print("URL= \(urlConstructor.url!)")
+//
+//
+//        let request = AF.request(urlConstructor.url!)
+//        request.responseJSON { (data) in
+//            print(data)
+//        }
     }
     
     @IBAction func searchGroups(_ sender: Any) {

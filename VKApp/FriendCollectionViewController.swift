@@ -11,7 +11,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class FriendCollectionViewController: UICollectionViewController {
-    var friend: User!
+    var friend: UserFriends!
     var curIndex: Int = 0
 
     override func viewDidLoad() {
@@ -34,8 +34,8 @@ class FriendCollectionViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "friendPhoto" {
             let vc = segue.destination as! FriendPhotoViewController
-            vc.img = friend.images[curIndex]
-            vc.friendimgs = friend.images
+           // vc.img = friend.images[curIndex]
+           // vc.friendimgs = friend.images
             vc.curIndex = curIndex
         }
     }
@@ -47,13 +47,14 @@ class FriendCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return friend.images.count
+       // return friend.images.count
+        return 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCollectionCell", for: indexPath) as! FriendCollectionViewCell
     
-        cell.avatarImage.image = friend.images[indexPath.row]
+        //cell.avatarImage.image = friend.images[indexPath.row]
         cell.avatarImage.isUserInteractionEnabled = true
         let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTapping(recognizer:)))
         singleTap.numberOfTapsRequired = 1
