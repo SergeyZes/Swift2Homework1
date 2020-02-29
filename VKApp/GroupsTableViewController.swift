@@ -9,6 +9,7 @@
 import UIKit
 
 class GroupsTableViewController: UITableViewController {
+    var allGroups = [ItemGroups]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,21 +22,64 @@ class GroupsTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getGroups()
+    }
+    
+    func getGroups() {
+            var urlConstructor = URLComponents()
+            urlConstructor.scheme = "https"
+            urlConstructor.host = "api.vk.com"
+            urlConstructor.path = "/method/groups.get"
+            urlConstructor.queryItems = [
+               URLQueryItem(name: "v", value: "5.103"),
+               URLQueryItem(name: "access_token", value: Session.instance.token),
+               URLQueryItem(name: "fields", value: "city,country,place,description"),
+               URLQueryItem(name: "extended", value: "1")
+            ]
+            
+            URLSession.shared.dataTask(with: urlConstructor.url!) { (data, response, error) in
+                guard let data = data else {
+                    return
+                }
+                
+              
+                guard let groups = try? JSONDecoder().decode(RootGroups.self, from: data) else  {
+                    return
+                }
+                
+                guard let ig = groups.response?.items else {
+                    return
+                }
+                
+                
+                DispatchQueue.main.async {
+                    self.allGroups = ig
+                    self.tableView.reloadData()
+                }
+                
+                
+                
+            }.resume()
+            
+        }
+
      
     // MARK: - Table view data source
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return VkDataBase.shared().myGroups.count
+        return allGroups.count
     }
 
   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "groupTableCell", for: indexPath) as! GroupTableViewCell
 
-        cell.groupLabel.text = VkDataBase.shared().myGroups[indexPath.row].name
-        cell.groupImage.image = VkDataBase.shared().myGroups[indexPath.row].image
+        cell.groupLabel.text = allGroups[indexPath.row].name
+        cell.groupImage.image = #imageLiteral(resourceName: "groups")
 
         return cell
     }
@@ -43,12 +87,12 @@ class GroupsTableViewController: UITableViewController {
     @IBAction func myUnwindAction(unwindSegue: UIStoryboardSegue){
         let vc = unwindSegue.source as! AllGroupsTableViewController
         
-        if let ip = vc.tableView.indexPathForSelectedRow {
-            let group = vc.groups[ip.row]
-                        
-            VkDataBase.shared().myGroups.append(group)
-            tableView.reloadData()
-        }
+//        if let ip = vc.tableView.indexPathForSelectedRow {
+//            let group = vc.groups[ip.row]
+//
+//            VkDataBase.shared().myGroups.append(group)
+//            tableView.reloadData()
+//        }
         
     }
     
@@ -64,10 +108,10 @@ class GroupsTableViewController: UITableViewController {
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            VkDataBase.shared().myGroups.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
+//        if editingStyle == .delete {
+//            VkDataBase.shared().myGroups.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//        }
     }
     
 
@@ -91,19 +135,19 @@ class GroupsTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "allGroupsSegue" {
-            let vc = segue.destination as! AllGroupsTableViewController
-            vc.groups = [Group]()
-            
-            outerloop: for group in VkDataBase.shared().allGroups {
-                for gp in VkDataBase.shared().myGroups {
-                    if gp.id == group.id {
-                        continue outerloop
-                    }
-                }
-                vc.groups.append(group)
-            }
-        }
+//        if segue.identifier == "allGroupsSegue" {
+//            let vc = segue.destination as! AllGroupsTableViewController
+//            vc.groups = [Group]()
+//
+//            outerloop: for group in VkDataBase.shared().allGroups {
+//                for gp in VkDataBase.shared().myGroups {
+//                    if gp.id == group.id {
+//                        continue outerloop
+//                    }
+//                }
+//                vc.groups.append(group)
+//            }
+//        }
         
     }
     
