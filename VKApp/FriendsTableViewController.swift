@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FriendsTableViewController: UITableViewController {
     var friendsDictionary = [String: [UserFriends]]()
@@ -44,11 +45,42 @@ class FriendsTableViewController: UITableViewController {
                   } catch {
                    return
                   }
+                    
+                
                 
                   guard let allf = self.rootFriends?.response?.items else {
                     return
                   }
                   self.allFriends = allf
+                    
+                    do {
+                        let realm = try Realm()
+                    
+                        try realm.write {
+                            realm.delete(realm.objects(RealmUser.self))
+                            for fr in allf {
+                                let ru = RealmUser()
+                                ru.id = fr.id ?? 0
+                                ru.domain = fr.domain
+                                ru.firstName = fr.firstName
+                                ru.lastName = fr.lastName
+                                ru.nickname = fr.nickname
+                                ru.sex = fr.sex ?? 1
+                                if let cit = fr.city {
+                                    let city = RealmCity()
+                                    city.id = cit.id ?? 0
+                                    city.title = cit.title
+                                    ru.city = city
+                                }
+                                realm.add(ru)
+                                
+                            }
+                        }
+                        print("Друзья сохранены в Realm")
+                                              
+                    } catch {
+                        print(error)
+                    }
                 
                   self.friendsDictionary = [:]
                   self.friendsSectionTitles = []

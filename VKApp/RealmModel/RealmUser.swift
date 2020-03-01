@@ -15,7 +15,7 @@ class RealmUser: Object {
     @objc dynamic var firstName: String? = ""
     @objc dynamic var lastName: String? = ""
     @objc dynamic var nickname: String? = ""
-    @objc dynamic var sex: Int = 0
+    @objc dynamic var sex: Int = 1
     @objc dynamic var city: RealmCity? = nil
     
 }
