@@ -11,7 +11,27 @@ import RealmSwift
 
 class PhotosTableViewController: UITableViewController {
     var photos = [Photo]()
-    
+    var photos3 = [Photo]()
+
+    func readPhotosFromDB() {
+        photos3 = []
+        guard let realm = try? Realm() else {
+            return
+        }
+        
+        let groups = realm.objects(RealmPhoto.self).sorted(byKeyPath: "text")
+        
+        photos3 = groups.map({ (realmPhoto) -> Photo in
+            
+            let photo = Photo(id: realmPhoto.id, text: realmPhoto.text, img: UIImage(data: realmPhoto.picture) ?? #imageLiteral(resourceName: "friends"))
+            return photo
+             
+        })
+        tableView.reloadData()
+
+        
+    }
+
     
     
     func getPhotoes() {
@@ -64,6 +84,15 @@ class PhotosTableViewController: UITableViewController {
             
             DispatchQueue.main.async {
                 self.photos = []
+                
+//                do {
+//                    let realm = try Realm()
+//                    realm.delete(realm.objects(RealmPhoto.self))
+//
+//                } catch {
+//                    return
+//                }
+                
                 photosItems.forEach { (item) in
                     
                     let idd = item.id ?? 0
@@ -85,8 +114,7 @@ class PhotosTableViewController: UITableViewController {
                                 return phot.id == idd
                             }) {
                                 firPh.img = image
-                                self.tableView.reloadData()
-                                do {
+                                 do {
                                     let realm = try Realm()
                                 
                                     try realm.write {
@@ -103,6 +131,8 @@ class PhotosTableViewController: UITableViewController {
                                      print(error)
                                 }
                                 
+                                self.readPhotosFromDB()
+                                
                                 
                             }
                                 
@@ -114,7 +144,7 @@ class PhotosTableViewController: UITableViewController {
                     
                     
                 }
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
             }
             
             
@@ -149,15 +179,15 @@ class PhotosTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return photos.count
+        return photos3.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "photoCelIdentifire", for: indexPath) as! PhotoTableViewCell
 
-        cell.img.image = photos[indexPath.row].img
-        cell.caption.text = photos[indexPath.row].text
+        cell.img.image = photos3[indexPath.row].img
+        cell.caption.text = photos3[indexPath.row].text
 
         return cell
     }
