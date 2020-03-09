@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class PhotosTableViewController: UITableViewController {
     var photos = [Photo]()
@@ -23,6 +24,20 @@ class PhotosTableViewController: UITableViewController {
                URLQueryItem(name: "access_token", value: Session.instance.token),
                URLQueryItem(name: "extended", value: "1")
             ]
+        
+        
+         do {
+            let realm = try Realm()
+        
+            try realm.write {
+                realm.delete(realm.objects(RealmPhoto.self))
+            }
+            print("Фото удалены из Realm")
+                                                      
+         } catch {
+             print(error)
+         }
+
         
         URLSession.shared.dataTask(with: urlConstructor.url!) { (data, response, error) in
             guard let data = data else {
@@ -42,6 +57,8 @@ class PhotosTableViewController: UITableViewController {
             guard let photosItems = photos2?.response?.items else {
                 return
             }
+            
+            
             
             print("photosItems.count = \(photosItems)")
             
@@ -69,6 +86,24 @@ class PhotosTableViewController: UITableViewController {
                             }) {
                                 firPh.img = image
                                 self.tableView.reloadData()
+                                do {
+                                    let realm = try Realm()
+                                
+                                    try realm.write {
+                                        let photo = RealmPhoto()
+                                        photo.id = firPh.id
+                                        photo.text = firPh.text
+                                        photo.picture = image.pngData() ?? Data()
+                                        realm.add(photo)
+                                        print("Фотография была \(photo.text) добавлена в базу данных Realm")
+                                    }
+                                    
+                                                                              
+                                } catch {
+                                     print(error)
+                                }
+                                
+                                
                             }
                                 
                         }

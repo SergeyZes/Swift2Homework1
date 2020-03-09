@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class GroupsTableViewController: UITableViewController {
     var allGroups = [ItemGroups]()
@@ -57,6 +58,33 @@ class GroupsTableViewController: UITableViewController {
                 DispatchQueue.main.async {
                     self.allGroups = ig
                     self.tableView.reloadData()
+                    
+                    do {
+                       let realm = try Realm()
+                   
+                       try realm.write {
+                           realm.delete(realm.objects(RealmGroup.self))
+                           for item in ig {
+                                let rg = RealmGroup()
+                                rg.id = item.id ?? 0
+                                rg.name = item.name
+                                rg.descriptionField = item.descriptionField
+                                rg.screenName = item.screenName
+                                rg.photo100 = item.photo100
+                                rg.photo200 = item.photo200
+                                rg.photo50 = item.photo50
+
+                            
+                                realm.add(rg)
+                               
+                           }
+                       }
+                       print("Группы сохранены в Realm")
+                                                                 
+                    } catch {
+                        print(error)
+                    }
+                    
                 }
                 
                 
