@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class GroupsTableViewController: UITableViewController {
-    var allGroups = [ItemGroups]()
+    var allGroups = [RealmGroup]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +27,23 @@ class GroupsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         getGroups()
     }
+    
+    func readGroupssFromDB() {
+        allGroups = []
+        guard let realm = try? Realm() else {
+            return
+        }
+        
+        let groups = realm.objects(RealmGroup.self).sorted(byKeyPath: "name")
+        
+        allGroups = groups.map({ (realmGroup) -> RealmGroup in
+             return realmGroup
+        })
+        tableView.reloadData()
+
+        
+    }
+
     
     func getGroups() {
             var urlConstructor = URLComponents()
@@ -56,8 +73,6 @@ class GroupsTableViewController: UITableViewController {
                 
                 
                 DispatchQueue.main.async {
-                    self.allGroups = ig
-                    self.tableView.reloadData()
                     
                     do {
                        let realm = try Realm()
@@ -80,6 +95,7 @@ class GroupsTableViewController: UITableViewController {
                            }
                        }
                        print("Группы сохранены в Realm")
+                       self.readGroupssFromDB()
                                                                  
                     } catch {
                         print(error)

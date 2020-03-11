@@ -23,6 +23,7 @@
 		A56D798723F1C22800006118 /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56D798623F1C22800006118 /* PopAnimator.swift */; };
 		A56D798923F1C40500006118 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56D798823F1C40500006118 /* CustomNavigationController.swift */; };
 		A56D798B23F1CD0500006118 /* CustomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56D798A23F1CD0500006118 /* CustomInteractiveTransition.swift */; };
+		A5771664241695CA00AF8A57 /* RealmUserWithPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5771663241695CA00AF8A57 /* RealmUserWithPhoto.swift */; };
 		A581FE2A240811F300CCDD00 /* RootFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = A581FE29240811F300CCDD00 /* RootFriends.swift */; };
 		A581FE2C2408185500CCDD00 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A581FE2B2408185500CCDD00 /* MainTabBarController.swift */; };
 		A581FE2E2408298800CCDD00 /* RootGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = A581FE2D2408298800CCDD00 /* RootGroups.swift */; };
@@ -70,6 +71,7 @@
 		A56D798623F1C22800006118 /* PopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
 		A56D798823F1C40500006118 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		A56D798A23F1CD0500006118 /* CustomInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractiveTransition.swift; sourceTree = "<group>"; };
+		A5771663241695CA00AF8A57 /* RealmUserWithPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmUserWithPhoto.swift; sourceTree = "<group>"; };
 		A581FE29240811F300CCDD00 /* RootFriends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootFriends.swift; sourceTree = "<group>"; };
 		A581FE2B2408185500CCDD00 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		A581FE2D2408298800CCDD00 /* RootGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootGroups.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				A58F5389240B8B90003A3A34 /* RealmUser.swift */,
 				A58F538B240B8E30003A3A34 /* RealGroup.swift */,
 				A58F538D240B9086003A3A34 /* RealmPhoto.swift */,
+				A5771663241695CA00AF8A57 /* RealmUserWithPhoto.swift */,
 			);
 			path = RealmModel;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				A581FE3424083C9E00CCDD00 /* PhotoTableViewCell.swift in Sources */,
 				A58F538E240B9086003A3A34 /* RealmPhoto.swift in Sources */,
 				A5EDD01323D6205500787BC0 /* GroupsTableViewController.swift in Sources */,
+				A5771664241695CA00AF8A57 /* RealmUserWithPhoto.swift in Sources */,
 				A596595623D624E800715FD9 /* AllGroupsTableViewController.swift in Sources */,
 				A581FE3024082D4400CCDD00 /* RootPhotos.swift in Sources */,
 				A58F538A240B8B90003A3A34 /* RealmUser.swift in Sources */,

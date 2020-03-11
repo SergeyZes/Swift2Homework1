@@ -11,7 +11,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class FriendCollectionViewController: UICollectionViewController {
-    var friend: UserFriends!
+    var friend: RealmUser!
     var curIndex: Int = 0
 
     override func viewDidLoad() {

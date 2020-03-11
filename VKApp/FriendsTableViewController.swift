@@ -10,14 +10,48 @@ import UIKit
 import RealmSwift
 
 class FriendsTableViewController: UITableViewController {
-    var friendsDictionary = [String: [UserFriends]]()
+    var friendsDictionary = [String: [RealmUser]]()
     var friendsSectionTitles = [String]()
-    var filteredFriends = [UserFriends]()
+    var filteredFriends = [RealmUser]()
     
     var rootFriends: RootFriends?
-    var allFriends  = [UserFriends]()
+    var allFriends  = [RealmUser]()
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    func readFriendsFromDB() {
+        allFriends = []
+        guard let realm = try? Realm() else {
+            return
+        }
+        
+        let friends = realm.objects(RealmUser.self).sorted(byKeyPath: "firstName")
+        
+        allFriends = friends.map({ (realmUser) -> RealmUser in
+             return realmUser
+        })
+        
+        friendsDictionary = [:]
+        friendsSectionTitles = []
+
+        for friend in self.allFriends {
+            let key = String((friend.firstName ?? "anonymous").prefix(1))
+            
+             
+            if var friendValues = self.friendsDictionary[key] {
+                friendValues.append(friend)
+                self.friendsDictionary[key] = friendValues
+            } else {
+                self.friendsDictionary[key] = [friend]
+            }
+          }
+        
+         friendsSectionTitles = [String] (self.friendsDictionary.keys)
+         friendsSectionTitles = self.friendsSectionTitles.sorted(by: { $0 < $1 })
+         tableView.reloadData()
+
+        
+    }
     
     func getFriends() {
             var urlConstructor = URLComponents()
@@ -51,7 +85,8 @@ class FriendsTableViewController: UITableViewController {
                   guard let allf = self.rootFriends?.response?.items else {
                     return
                   }
-                  self.allFriends = allf
+                  //self.allFriends = allf
+                    
                     
                     do {
                         let realm = try Realm()
@@ -77,29 +112,13 @@ class FriendsTableViewController: UITableViewController {
                             }
                         }
                         print("Друзья сохранены в Realm")
-                                              
+                        print(realm.configuration.fileURL)
+
                     } catch {
                         print(error)
                     }
                 
-                  self.friendsDictionary = [:]
-                  self.friendsSectionTitles = []
-
-                  for friend in self.allFriends {
-                    let key = String((friend.firstName ?? "anonymous").prefix(1))
-                    
-                     
-                    if var friendValues = self.friendsDictionary[key] {
-                        friendValues.append(friend)
-                        self.friendsDictionary[key] = friendValues
-                    } else {
-                        self.friendsDictionary[key] = [friend]
-                    }
-                  }
-                
-                  self.friendsSectionTitles = [String] (self.friendsDictionary.keys)
-                  self.friendsSectionTitles = self.friendsSectionTitles.sorted(by: { $0 < $1 })
-                  self.tableView.reloadData()
+                    self.readFriendsFromDB()
                 }
                 
                 
