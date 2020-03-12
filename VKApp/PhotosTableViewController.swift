@@ -12,6 +12,8 @@ import RealmSwift
 class PhotosTableViewController: UITableViewController {
     var photos = [Photo]()
     var photos3 = [Photo]()
+    var allPhotos: Results<RealmPhoto>?
+    var token: NotificationToken?
 
     func readPhotosFromDB() {
         photos3 = []
@@ -19,15 +21,36 @@ class PhotosTableViewController: UITableViewController {
             return
         }
         
-        let groups = realm.objects(RealmPhoto.self).sorted(byKeyPath: "text")
+        allPhotos = realm.objects(RealmPhoto.self).sorted(byKeyPath: "text")
         
-        photos3 = groups.map({ (realmPhoto) -> Photo in
-            
-            let photo = Photo(id: realmPhoto.id, text: realmPhoto.text, img: UIImage(data: realmPhoto.picture) ?? #imageLiteral(resourceName: "friends"))
-            return photo
-             
+        token = allPhotos?.observe({[weak self] changes in
+            guard let tableView = self?.tableView else {return}
+              
+            switch changes {
+                
+            case .initial(_):
+                tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                tableView.beginUpdates()
+                tableView.deleteRows(at: deletions.map({IndexPath(row: $0, section: 0)}), with: .automatic)
+                tableView.insertRows(at: insertions.map({IndexPath(row: $0, section: 0)}), with: .automatic)
+                tableView.reloadRows(at: modifications.map({IndexPath(row: $0, section: 0)}), with: .automatic)
+                tableView.endUpdates()
+            case .error(_):
+                break
+            @unknown default:
+                break
+            }
         })
-        tableView.reloadData()
+
+        
+//        photos3 = groups.map({ (realmPhoto) -> Photo in
+//
+//            let photo = Photo(id: realmPhoto.id, text: realmPhoto.text, img: UIImage(data: realmPhoto.picture) ?? #imageLiteral(resourceName: "friends"))
+//            return photo
+//
+//        })
+//        tableView.reloadData()
 
         
     }
@@ -131,7 +154,7 @@ class PhotosTableViewController: UITableViewController {
                                      print(error)
                                 }
                                 
-                                self.readPhotosFromDB()
+                                //self.readPhotosFromDB()
                                 
                                 
                             }
@@ -160,6 +183,7 @@ class PhotosTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         print("willAppear 0000")
         getPhotoes()
+        readPhotosFromDB()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -179,39 +203,71 @@ class PhotosTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return photos3.count
+        return allPhotos?.count ?? 0
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "photoCelIdentifire", for: indexPath) as! PhotoTableViewCell
 
-        cell.img.image = photos3[indexPath.row].img
-        cell.caption.text = photos3[indexPath.row].text
+        let img: UIImage
+        
+        if let picture = allPhotos?[indexPath.row].picture {
+            img = UIImage(data: picture) ?? #imageLiteral(resourceName: "friends")
+        } else {
+            img = #imageLiteral(resourceName: "friends")
+        }
+            
+        
+        
+        cell.img.image = img
+        
+        let cnt = allPhotos?.count ?? 0
+        
+        if cnt > indexPath.row {
+            cell.caption.text = allPhotos?[indexPath.row].text ?? "anonymous"
+        } else {
+            cell.caption.text = "anonymous"
+        }
+        
+        
 
         return cell
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+    
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let row = indexPath.row
+            
+            guard row < allPhotos?.count ?? 0 else { return }
+            do {
+                 let realm = try Realm()
+                
+                if let group = allPhotos?[row] {
+                    try realm.write({
+                        realm.delete(group)
+                    })
+                }
+
+             } catch {
+                 print(error)
+             }
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
