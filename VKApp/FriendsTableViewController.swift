@@ -13,11 +13,13 @@ class FriendsTableViewController: UITableViewController {
     var friendsDictionary = [String: [RealmUser]]()
     var friendsSectionTitles = [String]()
     var filteredFriends = [RealmUser]()
+    var token: NotificationToken?
+    var friends: Results<RealmUser>?
     
+    @IBOutlet weak var addButton: UIBarButtonItem!
     var rootFriends: RootFriends?
     var allFriends  = [RealmUser]()
     
-    @IBOutlet weak var searchBar: UISearchBar!
     
     func readFriendsFromDB() {
         allFriends = []
@@ -25,30 +27,50 @@ class FriendsTableViewController: UITableViewController {
             return
         }
         
-        let friends = realm.objects(RealmUser.self).sorted(byKeyPath: "firstName")
+        friends = realm.objects(RealmUser.self).sorted(byKeyPath: "firstName")
         
-        allFriends = friends.map({ (realmUser) -> RealmUser in
-             return realmUser
+        token = friends?.observe({[weak self] changes in
+            guard let tableView = self?.tableView else {return}
+              
+            switch changes {
+                
+            case .initial(_):
+                tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                tableView.beginUpdates()
+                tableView.deleteRows(at: deletions.map({IndexPath(row: $0, section: 0)}), with: .automatic)
+                tableView.insertRows(at: insertions.map({IndexPath(row: $0, section: 0)}), with: .automatic)
+                tableView.reloadRows(at: modifications.map({IndexPath(row: $0, section: 0)}), with: .automatic)
+                tableView.endUpdates()
+            case .error(_):
+                break
+            @unknown default:
+                break
+            }
         })
         
-        friendsDictionary = [:]
-        friendsSectionTitles = []
-
-        for friend in self.allFriends {
-            let key = String((friend.firstName ?? "anonymous").prefix(1))
-            
-             
-            if var friendValues = self.friendsDictionary[key] {
-                friendValues.append(friend)
-                self.friendsDictionary[key] = friendValues
-            } else {
-                self.friendsDictionary[key] = [friend]
-            }
-          }
-        
-         friendsSectionTitles = [String] (self.friendsDictionary.keys)
-         friendsSectionTitles = self.friendsSectionTitles.sorted(by: { $0 < $1 })
-         tableView.reloadData()
+//        allFriends = friends.map({ (realmUser) -> RealmUser in
+//             return realmUser
+//        })
+//
+//        friendsDictionary = [:]
+//        friendsSectionTitles = []
+//
+//        for friend in self.allFriends {
+//            let key = String((friend.firstName ?? "anonymous").prefix(1))
+//
+//
+//            if var friendValues = self.friendsDictionary[key] {
+//                friendValues.append(friend)
+//                self.friendsDictionary[key] = friendValues
+//            } else {
+//                self.friendsDictionary[key] = [friend]
+//            }
+//          }
+//
+//         friendsSectionTitles = [String] (self.friendsDictionary.keys)
+//         friendsSectionTitles = self.friendsSectionTitles.sorted(by: { $0 < $1 })
+//         tableView.reloadData()
 
         
     }
@@ -131,6 +153,10 @@ class FriendsTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.rowHeight = 74
         tableView.tableFooterView = UIView()
+        tableView.sectionHeaderHeight = 0
+  
+
+       // tableView.tableHeaderView.he
         
         friendsDictionary = [:]
         friendsSectionTitles = []
@@ -149,51 +175,57 @@ class FriendsTableViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         
-        if let s = searchBar.text, s != "" {
-            return 1
-        }
-        
-        
-        return friendsSectionTitles.count
+//        if let s = searchBar.text, s != "" {
+//            return 1
+//        }
+//
+//
+//        return friendsSectionTitles.count
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if let s = searchBar.text, s != "" {
-            return filteredFriends.count
-        }
-
-        
-        let key = friendsSectionTitles[section]
-        
-        if let friendValues = friendsDictionary[key] {
-            return friendValues.count
-        }
-        
-        return 0
+        return friends?.count ?? 0
+//        if let s = searchBar.text, s != "" {
+//            return filteredFriends.count
+//        }
+//
+//        
+//        let key = friendsSectionTitles[section]
+//        
+//        if let friendValues = friendsDictionary[key] {
+//            return friendValues.count
+//        }
+//        
+//        return 0
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendTableCell", for: indexPath) as! FriendTableViewCell
         
-        if let s = searchBar.text, s != "" {
-            cell.friendLabel.text = filteredFriends[indexPath.row].firstName ?? "anonymous"
-            cell.avatarImage.img = #imageLiteral(resourceName: "groups")
-            cell.animate()
-            return cell
-        }
-
+//        if let s = searchBar.text, s != "" {
+//            cell.friendLabel.text = filteredFriends[indexPath.row].firstName ?? "anonymous"
+//            cell.avatarImage.img = #imageLiteral(resourceName: "groups")
+//            cell.animate()
+//            return cell
+//        }
+//
+//
+//        let key = friendsSectionTitles[indexPath.section]
+//
+//        if let friendValues = friendsDictionary[key] {
+//            cell.friendLabel.text = friendValues[indexPath.row].firstName ?? "anonymous"
+//            cell.avatarImage.img = #imageLiteral(resourceName: "groups")
+//            cell.animate()
+//        }
         
-        let key = friendsSectionTitles[indexPath.section]
-  
-        if let friendValues = friendsDictionary[key] {
-            cell.friendLabel.text = friendValues[indexPath.row].firstName ?? "anonymous"
-            cell.avatarImage.img = #imageLiteral(resourceName: "groups")
-            cell.animate()
-        }
 
-        
+                    cell.friendLabel.text = friends?[indexPath.row].firstName ?? "anonymous"
+                    cell.avatarImage.img = #imageLiteral(resourceName: "groups")
+                    cell.animate()
+
         
 
         return cell
@@ -201,45 +233,64 @@ class FriendsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        if let s = searchBar.text, s != "" {
-             return nil
-        }
-
-        
+ //       return nil
+//        if let s = searchBar.text, s != "" {
+//             return nil
+//        }
+//
+//
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendTableHeader") as! FriendTableViewHeader
-        
-        cell.sectionHeader.text = friendsSectionTitles[section]
+        tableView.sectionHeaderHeight = 0
+
+        //cell.sectionHeader.text = friendsSectionTitles[section]
         return cell
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        if let s = searchBar.text, s != "" {
-            return nil
-        }
-
-        return friendsSectionTitles
+        return nil
+//        if let s = searchBar.text, s != "" {
+//            return nil
+//        }
+//
+//        return friendsSectionTitles
     }
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+    
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let row = indexPath.row
+            
+            guard row < friends?.count ?? 0 else { return }
+            do {
+                 let realm = try Realm()
+                
+                if let friend = friends?[row] {
+                    try realm.write({
+                        realm.delete(friend)
+                    })
+                }
+
+             } catch {
+                 print(error)
+             }
+
+            
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -265,22 +316,60 @@ class FriendsTableViewController: UITableViewController {
             
             guard let section = tableView.indexPathForSelectedRow?.section, let row = tableView.indexPathForSelectedRow?.row else { return }
             
-            if let s = searchBar.text, s != "" {
-               (segue.destination as! FriendCollectionViewController).friend = filteredFriends[row]
-                return
-            }
 
+            (segue.destination as! FriendCollectionViewController).friend = friends?[section]
             
             
             
-            
-            let key = friendsSectionTitles[section]
-            
-            if let friendValues = friendsDictionary[key] {
-                (segue.destination as! FriendCollectionViewController).friend = friendValues[row]
-            }
+//            let key = friendsSectionTitles[section]
+//
+//            if let friendValues = friendsDictionary[key] {
+//                (segue.destination as! FriendCollectionViewController).friend = friendValues[row]
+//            }
 
         }
+    }
+    
+    @IBAction func addFriend(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: "Введите имя", message: nil, preferredStyle: .alert)
+        alertController.addTextField { (field) in
+            
+        }
+        let confirmAction = UIAlertAction(title: "Добавить", style: .default) { [weak self] action in
+            guard let name = alertController.textFields?[0].text else {return}
+            self?.addFriend(name: name)
+        }
+        alertController.addAction(confirmAction)
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    func addFriend(name: String){
+        do {
+             let realm = try Realm()
+         
+             try realm.write {
+                    let ru = RealmUser()
+                     ru.id =  0
+                     ru.domain = nil
+                     ru.firstName = name
+                     ru.lastName = name
+                     ru.nickname = name
+                     ru.sex = 1
+                     ru.city = nil
+                
+                     realm.add(ru)
+                      
+                 
+             }
+
+         } catch {
+             print(error)
+         }
+
     }
     
 

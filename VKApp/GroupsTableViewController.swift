@@ -10,7 +10,9 @@ import UIKit
 import RealmSwift
 
 class GroupsTableViewController: UITableViewController {
-    var allGroups = [RealmGroup]()
+    var allGroups: Results<RealmGroup>?
+    var token: NotificationToken?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,17 +31,31 @@ class GroupsTableViewController: UITableViewController {
     }
     
     func readGroupssFromDB() {
-        allGroups = []
         guard let realm = try? Realm() else {
             return
         }
         
-        let groups = realm.objects(RealmGroup.self).sorted(byKeyPath: "name")
+        allGroups = realm.objects(RealmGroup.self).sorted(byKeyPath: "name")
         
-        allGroups = groups.map({ (realmGroup) -> RealmGroup in
-             return realmGroup
+        token = allGroups?.observe({[weak self] changes in
+            guard let tableView = self?.tableView else {return}
+              
+            switch changes {
+                
+            case .initial(_):
+                tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                tableView.beginUpdates()
+                tableView.deleteRows(at: deletions.map({IndexPath(row: $0, section: 0)}), with: .automatic)
+                tableView.insertRows(at: insertions.map({IndexPath(row: $0, section: 0)}), with: .automatic)
+                tableView.reloadRows(at: modifications.map({IndexPath(row: $0, section: 0)}), with: .automatic)
+                tableView.endUpdates()
+            case .error(_):
+                break
+            @unknown default:
+                break
+            }
         })
-        tableView.reloadData()
 
         
     }
@@ -115,14 +131,14 @@ class GroupsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return allGroups.count
+        return allGroups?.count ?? 0
     }
 
   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "groupTableCell", for: indexPath) as! GroupTableViewCell
 
-        cell.groupLabel.text = allGroups[indexPath.row].name
+        cell.groupLabel.text = allGroups?[indexPath.row].name ?? "anonymous"
         cell.groupImage.image = #imageLiteral(resourceName: "groups")
 
         return cell
@@ -141,21 +157,35 @@ class GroupsTableViewController: UITableViewController {
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+    
 
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            VkDataBase.shared().myGroups.remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
+        if editingStyle == .delete {
+            let row = indexPath.row
+            
+            guard row < allGroups?.count ?? 0 else { return }
+            do {
+                 let realm = try Realm()
+                
+                if let group = allGroups?[row] {
+                    try realm.write({
+                        realm.delete(group)
+                    })
+                }
+
+             } catch {
+                 print(error)
+             }
+
+        }
     }
     
 
@@ -195,5 +225,42 @@ class GroupsTableViewController: UITableViewController {
         
     }
     
+    @IBAction func addGroup(_ sender: UIBarButtonItem) {
+            let alertController = UIAlertController(title: "Введите группу", message: nil, preferredStyle: .alert)
+            alertController.addTextField { (field) in
+                
+            }
+            let confirmAction = UIAlertAction(title: "Добавить", style: .default) { [weak self] action in
+                guard let name = alertController.textFields?[0].text else {return}
+                self?.addGroup(name: name)
+            }
+            alertController.addAction(confirmAction)
+            
+            let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            present(alertController, animated: true)
+        }
+        
+func addGroup(name: String){
+            do {
+                 let realm = try Realm()
+             
+                 try realm.write {
+                    let ru = RealmGroup()
+                    ru.id =  0
+                    ru.name = name
+                    ru.screenName = name
+                    
+                         realm.add(ru)
+                 }
 
+             } catch {
+                 print(error)
+             }
+
+}
+
+    
+    
 }

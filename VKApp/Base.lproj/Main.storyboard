@@ -324,17 +324,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.76470588235294112" green="0.89411764705882346" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="IOW-Gr-QMN">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                            <connections>
-                                <outlet property="delegate" destination="D1H-El-6HS" id="V30-po-DDp"/>
-                            </connections>
-                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendTableCell" rowHeight="74" id="28o-S2-bf3" customClass="FriendTableViewCell" customModule="VKApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="414" height="74"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="74"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="28o-S2-bf3" id="izI-c1-7Vu">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="74"/>
@@ -382,11 +374,10 @@
                                 <connections>
                                     <outlet property="avatarImage" destination="7Cb-cj-71t" id="eLl-Xx-OnV"/>
                                     <outlet property="friendLabel" destination="S8l-3m-uaW" id="yPf-hw-6ca"/>
-                                    <segue destination="elU-E8-7aP" kind="show" identifier="friendPropertiesSegue" id="spE-tc-uqK"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell opaque="NO" clipsSubviews="YES" alpha="0.59999999999999998" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendTableHeader" rowHeight="40" id="BYf-7S-RFS" customClass="FriendTableViewHeader" customModule="VKApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="146" width="414" height="40"/>
+                                <rect key="frame" x="0.0" y="102" width="414" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BYf-7S-RFS" id="KwY-tm-afd">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
@@ -416,9 +407,15 @@
                             <outlet property="delegate" destination="D1H-El-6HS" id="sLf-zw-QTQ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="друзья" id="Nkz-wb-9Ie"/>
+                    <navigationItem key="navigationItem" title="друзья" id="Nkz-wb-9Ie">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="LQV-t4-Ops">
+                            <connections>
+                                <action selector="addFriend:" destination="D1H-El-6HS" id="Zgd-mw-fPz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="searchBar" destination="IOW-Gr-QMN" id="F5R-gz-5s0"/>
+                        <outlet property="addButton" destination="LQV-t4-Ops" id="OzA-5f-bLx"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ved-g2-SXu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -497,11 +494,11 @@
             <objects>
                 <viewController id="xeZ-sY-5St" customClass="FriendPhotoViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lzj-XN-rsu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QJ0-mH-rqZ">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -785,7 +782,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="группы" id="tPj-PM-Atd">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="31A-aH-fkM"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="31A-aH-fkM">
+                            <connections>
+                                <action selector="addGroup:" destination="PeV-aq-lLq" id="pR6-Sd-uzJ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DD3-8d-Abh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
