@@ -8,16 +8,38 @@
 
 import UIKit
 import RealmSwift
+import FirebaseDatabase
 
 class GroupsTableViewController: UITableViewController {
     var allGroups: Results<RealmGroup>?
     var token: NotificationToken?
+    
+    private var groups = [GroupFire]()
+    private let ref = Database.database().reference(withPath: "groups")
+    var userId: Int = 0;
+    
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 74
         tableView.tableFooterView = UIView()
+                
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        userId = appDelegate.userId
+        
+        ref.observe(.value) { snapshot in
+            var groups = [GroupFire]()
+            for child in snapshot.children {
+                if let snapshot = child as? DataSnapshot, let group = GroupFire(snapshot: snapshot) {
+                    if group.userId == self.userId {
+                        groups.append(group)
+                    }
+                }
+            }
+            self.groups = groups
+            self.tableView.reloadData()
+        }
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -89,34 +111,43 @@ class GroupsTableViewController: UITableViewController {
                 
                 
                 DispatchQueue.main.async {
+                    for item in ig {
+                        let name = item.name ?? "anonimous"
+                        let group = GroupFire(userId: self.userId, name: name)
+                        let groupRef = self.ref.child("\(self.userId)_\(name)")
+                        groupRef.setValue(group.toAnyObject())
                     
-                    do {
-                       let realm = try Realm()
-                   
-                       try realm.write {
-                           realm.delete(realm.objects(RealmGroup.self))
-                           for item in ig {
-                                let rg = RealmGroup()
-                                rg.id = item.id ?? 0
-                                rg.name = item.name
-                                rg.descriptionField = item.descriptionField
-                                rg.screenName = item.screenName
-                                rg.photo100 = item.photo100
-                                rg.photo200 = item.photo200
-                                rg.photo50 = item.photo50
-
-                            
-                                realm.add(rg)
-                               
-                           }
-                       }
-                       print("Группы сохранены в Realm")
-                       self.readGroupssFromDB()
-                                                                 
-                    } catch {
-                        print(error)
                     }
+                    print("Группы сохранены в Firebase")
+
                     
+//                    do {
+//                       let realm = try Realm()
+//
+//                       try realm.write {
+//                           realm.delete(realm.objects(RealmGroup.self))
+//                           for item in ig {
+//                                let rg = RealmGroup()
+//                                rg.id = item.id ?? 0
+//                                rg.name = item.name
+//                                rg.descriptionField = item.descriptionField
+//                                rg.screenName = item.screenName
+//                                rg.photo100 = item.photo100
+//                                rg.photo200 = item.photo200
+//                                rg.photo50 = item.photo50
+//
+//
+//                                realm.add(rg)
+//
+//                           }
+//                       }
+//                       print("Группы сохранены в Realm")
+//                       self.readGroupssFromDB()
+//
+//                    } catch {
+//                        print(error)
+//                    }
+
                 }
                 
                 
@@ -131,14 +162,18 @@ class GroupsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return allGroups?.count ?? 0
+        //return allGroups?.count ?? 0
+        return groups.count
     }
 
   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "groupTableCell", for: indexPath) as! GroupTableViewCell
+        
+        let group = groups[indexPath.row]
 
-        cell.groupLabel.text = allGroups?[indexPath.row].name ?? "anonymous"
+        cell.groupLabel.text = group.name
+        //cell.groupLabel.text = allGroups?[indexPath.row].name ?? "anonymous"
         cell.groupImage.image = #imageLiteral(resourceName: "groups")
 
         return cell
@@ -161,31 +196,13 @@ class GroupsTableViewController: UITableViewController {
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return true
+        return false
     }
     
 
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let row = indexPath.row
-            
-            guard row < allGroups?.count ?? 0 else { return }
-            do {
-                 let realm = try Realm()
-                
-                if let group = allGroups?[row] {
-                    try realm.write({
-                        realm.delete(group)
-                    })
-                }
-
-             } catch {
-                 print(error)
-             }
-
-        }
     }
     
 
@@ -243,21 +260,9 @@ class GroupsTableViewController: UITableViewController {
         }
         
 func addGroup(name: String){
-            do {
-                 let realm = try Realm()
-             
-                 try realm.write {
-                    let ru = RealmGroup()
-                    ru.id =  0
-                    ru.name = name
-                    ru.screenName = name
-                    
-                         realm.add(ru)
-                 }
-
-             } catch {
-                 print(error)
-             }
+    let group = GroupFire(userId: self.userId, name: name)
+    let groupRef = self.ref.child("\(self.userId)_\(name)")
+    groupRef.setValue(group.toAnyObject())
 
 }
 

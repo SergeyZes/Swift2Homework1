@@ -8,10 +8,12 @@
 
 import UIKit
 import WebKit
+import FirebaseDatabase
 
 class LoginVKViewController: UIViewController {
 
     @IBOutlet weak var webview: WKWebView!
+    private let ref = Database.database().reference(withPath: "users")
     
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.setHidesBackButton(true, animated: false)
@@ -88,6 +90,15 @@ extension LoginVKViewController: WKNavigationDelegate {
 
             Session.instance.token = token
             Session.instance.userId = userid
+            
+            let user = UserFire(id: userid)
+            let userRef = ref.child("\(user.id)")
+            userRef.setValue(user.toAnyObject())
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.userId = userid
+            
+            
             
             performSegue(withIdentifier: "loginVkOkSegue", sender: nil)
             //                   navigationController?.viewControllers.removeAll()

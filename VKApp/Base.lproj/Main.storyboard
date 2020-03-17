@@ -291,6 +291,7 @@
                         <segue destination="FWI-tI-0Tu" kind="relationship" relationship="viewControllers" id="1yy-9z-uXm"/>
                         <segue destination="SIA-rY-Gao" kind="relationship" relationship="viewControllers" id="Lza-sl-EgJ"/>
                         <segue destination="hM6-FX-H4K" kind="relationship" relationship="viewControllers" id="3YD-7D-iWM"/>
+                        <segue destination="GGN-0m-avH" kind="relationship" relationship="viewControllers" id="RpU-k2-8M6"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Du9-YN-kgN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -674,7 +675,45 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hyu-Ub-TSm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3528" y="998"/>
+            <point key="canvasLocation" x="3194" y="1005"/>
+        </scene>
+        <!--Авторизовались-->
+        <scene sceneID="aP0-61-XSa">
+            <objects>
+                <tableViewController id="GGN-0m-avH" customClass="AuthUsersTableViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="UIL-8f-Xkg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="authIdentifire" textLabel="hq7-rh-EzH" style="IBUITableViewCellStyleDefault" id="wMP-vS-Job">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wMP-vS-Job" id="ZAx-pO-uTM">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hq7-rh-EzH">
+                                            <rect key="frame" x="20" y="0.0" width="374" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="GGN-0m-avH" id="pnr-s5-sT0"/>
+                            <outlet property="delegate" destination="GGN-0m-avH" id="YCK-rF-jDw"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Авторизовались" image="person.3.fill" catalog="system" id="DAK-2L-sZ8"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZaP-DF-SaM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3749" y="638"/>
         </scene>
         <!--Photos Table View Controller-->
         <scene sceneID="El2-kk-JD8">
@@ -885,7 +924,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cGL-tO-caM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2733" y="998"/>
+            <point key="canvasLocation" x="2478" y="986"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iUA-K8-AVW">
@@ -936,9 +975,10 @@
         <image name="pencil" catalog="system" width="64" height="56"/>
         <image name="person" catalog="system" width="64" height="58"/>
         <image name="person.2" catalog="system" width="64" height="40"/>
+        <image name="person.3.fill" catalog="system" width="71" height="34"/>
         <image name="sun.dust" catalog="system" width="64" height="58"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Jao-gc-gng"/>
+        <segue reference="rRo-R9-qHT"/>
     </inferredMetricsTieBreakers>
 </document>
