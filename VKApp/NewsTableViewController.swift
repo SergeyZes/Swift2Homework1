@@ -9,6 +9,58 @@
 import UIKit
 
 class NewsTableViewController: UITableViewController {
+    var rootNews: RootNews?
+    var news =  [ItemNews]()
+
+    
+    func getNewsfeed() {
+            var urlConstructor = URLComponents()
+            urlConstructor.scheme = "https"
+            urlConstructor.host = "api.vk.com"
+            urlConstructor.path = "/method/newsfeed.get"
+            urlConstructor.queryItems = [
+               URLQueryItem(name: "v", value: "5.58"),
+               URLQueryItem(name: "access_token", value: Session.instance.token),
+               URLQueryItem(name: "filters", value: "post")
+            ]
+            
+            URLSession.shared.dataTask(with: urlConstructor.url!) { (data, response, error) in
+                guard let data = data else {
+                    
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                 
+                  do {
+                    self.rootNews = try JSONDecoder().decode(RootNews.self, from: data)
+                    
+                      
+                  } catch {
+                   return
+                  }
+                    
+                    guard let itN = self.rootNews?.response?.items else {
+                        return
+                    }
+                    
+                    self.news = itN
+                    self.tableView.reloadData()
+                
+                
+                    
+                    
+                }
+                
+                
+            }.resume()
+            
+        }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getNewsfeed()
+    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,11 +69,6 @@ class NewsTableViewController: UITableViewController {
         
         
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -29,23 +76,27 @@ class NewsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return VkDataBase.shared().allNews.count
+       // return VkDataBase.shared().allNews.count
+        return news.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsTableCell", for: indexPath) as! NewsTableViewCell
-        let news = VkDataBase.shared().allNews[indexPath.row]
+        let news2 = news[indexPath.row]
         
-        cell.avatarImage.img = news.user.image
-        cell.friendLabel.text = news.user.name
+        cell.avatarImage.img =  #imageLiteral(resourceName: "groups")//news.user.image
+        cell.friendLabel.text = ""
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
-        cell.newDate.text = dateFormatter.string(from: news.newsDate)
-        cell.newText.text = news.news
-        cell.newViews.text = ": \(news.views)"
-        cell.newImage.image = news.image
+        
+        let ti: TimeInterval = Double(news2.date ?? 0)
+        
+        cell.newDate.text = dateFormatter.string(from: Date(timeIntervalSince1970: ti))
+        cell.newText.text = news2.text
+        cell.newViews.text = "0"
+        cell.newImage.image = #imageLiteral(resourceName: "friends")
 
 
         return cell
