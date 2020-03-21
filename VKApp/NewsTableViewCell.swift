@@ -20,6 +20,8 @@ class NewsTableViewCell: UITableViewCell {
     @IBOutlet weak var newViews: UILabel!
     @IBOutlet weak var newImage: UIImageView!
     
+    @IBOutlet weak var likes: CustomControl!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

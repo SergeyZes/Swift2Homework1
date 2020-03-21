@@ -659,6 +659,7 @@
                                 <connections>
                                     <outlet property="avatarImage" destination="HtH-jq-VMw" id="Syp-Ep-llu"/>
                                     <outlet property="friendLabel" destination="UgQ-LI-xXD" id="U43-rd-1Gi"/>
+                                    <outlet property="likes" destination="rdh-oX-LyX" id="4xo-Kb-xpr"/>
                                     <outlet property="newDate" destination="eGp-ek-6sI" id="Kwb-9l-Es8"/>
                                     <outlet property="newImage" destination="PFw-zb-2ig" id="e2y-Ej-Gsl"/>
                                     <outlet property="newText" destination="B8F-UO-8sa" id="K9h-K3-IxD"/>
