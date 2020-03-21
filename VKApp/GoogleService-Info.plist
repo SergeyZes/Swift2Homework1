@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1059002279376-e374ca2ae8c6ri63hmfnm6fnnifr46ej.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1059002279376-e374ca2ae8c6ri63hmfnm6fnnifr46ej</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAaYjol1pf-92RWfKhlGv1svYxVR9qraz8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1059002279376</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Sergue.VKApp</string>
+	<key>PROJECT_ID</key>
+	<string>vkapp-ccc27</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vkapp-ccc27.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1059002279376:ios:c58a59fa421c89fe14c5d5</string>
+	<key>DATABASE_URL</key>
+	<string>https://vkapp-ccc27.firebaseio.com</string>
+</dict>
+</plist>
