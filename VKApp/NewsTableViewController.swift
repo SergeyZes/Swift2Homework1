@@ -11,6 +11,8 @@ import UIKit
 class NewsTableViewController: UITableViewController {
     var rootNews: RootNews?
     var news =  [ItemNews]()
+    
+    var newsList = [NewsUnit]()
 
     
     func getNewsfeed() {
@@ -45,6 +47,40 @@ class NewsTableViewController: UITableViewController {
                     }
                     
                     self.news = itN
+                    self.newsList = []
+                    
+                    itN.forEach { item in
+                        let new = NewsUnit(date: item.date ?? 0, likes: item.likes?.count ?? 0, text: item.text ?? "", path: item.attachments?.first?.photo?.photo604 ?? "", img: #imageLiteral(resourceName: "friends"))
+                        self.newsList.append(new)
+                        
+                        
+                        
+
+                        
+                        guard let path = item.attachments?.first?.photo?.photo604, let url = URL(string: path) else { return }
+
+                        URLSession.shared.dataTask(with: url) { (data, response, error) in
+
+                                guard
+                                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                                let data = data, error == nil,
+                                let image = UIImage(data: data)
+                                else { return }
+                            
+                            DispatchQueue.main.async {
+                                new.img = image
+                                 self.tableView.reloadData()
+                                
+                            }
+
+                        }.resume()
+                        
+                        
+                    }
+                    
+                    
+                    
                     self.tableView.reloadData()
                 
                 
@@ -77,13 +113,13 @@ class NewsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
        // return VkDataBase.shared().allNews.count
-        return news.count
+        return newsList.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsTableCell", for: indexPath) as! NewsTableViewCell
-        let news2 = news[indexPath.row]
+        let news2 = newsList[indexPath.row]
         
         cell.avatarImage.img =  #imageLiteral(resourceName: "groups")//news.user.image
         cell.friendLabel.text = ""
@@ -91,12 +127,15 @@ class NewsTableViewController: UITableViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
         
-        let ti: TimeInterval = Double(news2.date ?? 0)
+        let ti: TimeInterval = Double(news2.date)
         
         cell.newDate.text = dateFormatter.string(from: Date(timeIntervalSince1970: ti))
         cell.newText.text = news2.text
         cell.newViews.text = "0"
-        cell.newImage.image = #imageLiteral(resourceName: "friends")
+        cell.newImage.image = news2.img
+        cell.likes.likes = news2.likes
+        
+        
 
 
         return cell
